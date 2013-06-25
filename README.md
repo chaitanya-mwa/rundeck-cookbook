@@ -19,6 +19,10 @@ Roadmap:
 
 * CentOS
 
+Tested on:
+
+* CentOS 6.4
+
 ## Cookbook
 
 * apt
