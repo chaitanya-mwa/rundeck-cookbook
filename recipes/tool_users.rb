@@ -18,8 +18,6 @@
 # limitations under the License.
 #
 
-user_definition_lines = Array.new
-
 # Public: Create a Rundeck user definition line
 #
 # id       - String, The Rundeck tool user id
@@ -41,6 +39,8 @@ user_definition_lines = Array.new
 def user_definition_line(id, encrypt, password, roles)
   "#{id}: #{encrypt}#{':' if encrypt}#{password},#{roles.join(',')}"
 end
+
+user_definition_lines = Array.new
 
 if node["rundeck"]["tool_users"]["use_data_bag"]
   search(node["rundeck"]["tool_users"]["data_bag_name"], "rundeck_locked_user:false") do |u|
