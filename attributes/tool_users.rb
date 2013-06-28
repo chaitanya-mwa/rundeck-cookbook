@@ -1,7 +1,7 @@
 #
 # Author:: Seigo Uchida (<spesnova@gmail.com>)
 # Cookbook Name:: rundeck
-# Attributes:: default
+# Attributes:: tool_users
 #
 # Copyright (C) 2013 Seigo Uchida (<spesnova@gmail.com>)
 #
@@ -18,9 +18,18 @@
 # limitations under the License.
 #
 
-# About Installing Rundeck
-default["rundeck"]["version"] = "1.5.3-1.2.GA"
-default["rundeck"]["rpm_url"] = "http://repo.rundeck.org/latest.rpm"
-default["rundeck"]["user"]    = "rundeck"
-default["rundeck"]["group"]   = "rundeck"
-
+# About Configuring Rundeck users
+default["rundeck"]["tool_users"]["use_data_bag"]  = false
+default["rundeck"]["tool_users"]["data_bag_name"] = "users"
+default["rundeck"]["tool_users"]["users"] = [
+  { "id"       => "admin",
+    "encrypt"  => nil,
+    "password" => "admin",
+    "roles"    => ["admin"]
+  },
+  { "id"       => "jsmith",
+    "encrypt"  => "MD5",
+    "password" => "a029d0df84eb5549c641e04a9ef389e5",
+    "roles"    => ["admin"]
+  }
+]

@@ -48,11 +48,11 @@ when "centos", "redhat"
     action :install
     version node["rundeck"]["version"]
   end
+end
 
-  service "rundeckd" do
-    supports :status => true, :restart => true
-    action [:enable, :start]
-  end
+service "rundeckd" do
+  supports :status => true, :restart => true
+  action [:enable, :start]
 end
 
 # Configure Rundeck

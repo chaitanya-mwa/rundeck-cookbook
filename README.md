@@ -6,13 +6,14 @@ Learn more about Rundeck [Here](http://rundeck.org/).
 Currently supported:
 
 * Install Rundeck
+* Configure Rundeck tool users
 
 Roadmap:
 
-* Option to use MySQL
 * Support Other platform
-* Configure rundeck user definition
 * Install and configure chef-rundeck integrator
+* Add a test case using data bag for tool_users recipe
+* Option to use MySQL
 
 # Requirements
 ## Platform
@@ -30,24 +31,105 @@ Tested on:
 * mysql
 
 # Usage
+Include the default recipe on your node or role that fits how you wish to install Rundeck on your system per the recipes section above. Modify the attributes as required in your role to change how various configuration is applied per the attributes section above. In general, override attributes in the role should be used when changing attributes.
+
+If you're going to manage Rundeck user by Chef, include the tool_users recipe under the default recipe.
+
+    ...
+    "recipe[rundeck]",
+    "recipe[rundeck::tool_users]"  # Add here
+    ...
+
+And define user id / password in roles or data bag.
+
+Example definition in roles
+
+    "override_attributes": {
+      "rundeck": {
+        "tool_users": {
+          "use_data_bag": true,
+          "users": [
+            {
+              "id": "admin",
+              "encrypt": nil,
+              "password": "admin",
+              "roles": ["admin"]
+            },
+            {
+              "id": "jsmith",
+              "encrypt": "MD5",
+              "password": "a029d0df84eb5549c641e04a9ef389e5",
+              "roles": ["admin"]
+            }
+          ]
+        }
+      }
+    }
+
+Example definition in data bags, see Data Bags Section.
 
 # Attributes
 See the `attributes/default.rb` for default values.
 
-* `node["rundeck"]["version"]` - The rundeck package version to install
-* `node["rundeck"]["rpm_url"]` - Yum repo package url
+* `node["rundeck"]["version"]` - The rundeck package version to install. String
+* `node["rundeck"]["rpm_url"]` - Yum repo package url. String
+* `node["rundeck"]["user"]` - User that Rundeck will run as. String
+* `node["rundeck"]["group"]` - Group for Rundeck. String
+* `node["rundeck"]["tool_users"]["use_data_bag"]` - Whether or not use data bag to manage Rundeck tool users. Boolean
+* `node["rundeck"]["tool_users"]["data_bag_name"]` - Data bag name managing Rundeck tool users data. String (default to `users`)
+* `node["rundeck"]["tool_users"]["users"]` - Rundeck tool users definition. Hash
 
 # Recipes
 ## default
-Install and configure Rundeck
+Install Rundeck
 
-## user(yet)
-Create rundeck users definition file `realm.properties` from users data bag.
+## tool_users
+Create Rundeck tool users.
 
-## _mysql(yet)
-Install and configure MySQL
+For more detail, this recipe create rundeck users definition file `realm.properties`
+from node attributes or data bag
 
 # Data Bags
+This cookbook use data bag to manage Rundeck tool users.  
+(Or you can manage by node attributes.)
+
+First, please see [opscode-cookbooks/users Usage section](https://github.com/opscode-cookbooks/users#usage).
+
+Add Rundeck data to each users item.
+```
+{
+  "id": "bofh",
+  "password": "$1$d...HgH0",
+  "ssh_keys": [
+    "ssh-rsa AAA123...xyz== foo",
+    "ssh-rsa AAA456...uvw== bar"
+  ],
+  "groups": [ "sysadmin", "dba", "devops" ],
+  "uid": 2001,
+  "shell": "\/bin\/bash",
+  "comment": "BOFH",
+  ...
+  ...
+  "rundeck": {
+    "locked_user": false,
+    "encrypt": "MD5",
+    "password": "a029d0df84eb5549c641e04a9ef389e5",
+    "roles": ["admin", "users"]
+  },
+  ...
+  ...
+}
+```
+
+* `locked_user` - Whether or not lock this user account.
+* `encrypt` - Encryption method, `MD5` or `OBF` or `CRYPT` or `false`(plain)
+* `password` - Encrypted or plain password
+* `roles` - Roles this user have
+
+Upload the json data to Chef Server.
+```
+$ knife data bag from file users data_bags/users/*.json
+```
 
 # License and Author
 

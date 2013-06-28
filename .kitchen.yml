@@ -19,5 +19,25 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[rundeck]"]
-  attributes: {}
+  run_list: ["recipe[rundeck]", "recipe[rundeck::tool_users]"]
+  attributes:
+    rundeck:
+      tool_users:
+        use_data_bag: false
+        users:
+          - id: admin
+            encrypt: null
+            password: admin
+            roles: ["admin", "users"]
+          - id: jsmith
+            encrypt: MD5
+            password: a029d0df84eb5549c641e04a9ef389e5
+            roles: ["admin"]
+          - id: steve
+            encrypt: OBF
+            password: 1xfd1zt11uha1ugg1zsp1xfp
+            roles: ["admin"]
+          - id: bill
+            encrypt: CRYPT
+            password: stnPHOuwRN8Is
+            roles: ["admin"]
