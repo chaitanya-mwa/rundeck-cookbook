@@ -7,16 +7,19 @@ Currently supported:
 
 * Install Rundeck
 * Configure Rundeck tool users
-* Install and configure chef-rundeck integrator
+* Install and configure chef-rundeck integrator (work in progress)
+* Create a user on target node for SSH connection
 
 Roadmap:
 
 * Managing firewall(iptables)
 * Support Other platform
 * Support log rotate
+* Support backup
 * Add a test case using data bag for tool_users recipe
-* Add a test case for chef_integrate
 * Add a resource to start chef-rundeck server.
+* Add a test case for chef_integrate
+* Add a test case for ssh_users recipe (this recipe use search and chef-colo doesn't support it)
 * Option to use MySQL
 
 # Requirements
@@ -30,9 +33,10 @@ Tested on:
 
 ## Cookbook
 
-* apt
-* yum
-* java
+* [apt](https://github.com/opscode-cookbooks/apt)
+* [yum](https://github.com/opscode-cookbooks/yum)
+* [java](https://github.com/opscode-cookbooks/java)
+* [users](https://github.com/opscode-cookbooks/users)
 
 # Usage
 ## Installing Rundeck
@@ -74,21 +78,60 @@ Example definition in roles
 
 Example definition in data bags, see Data Bags Section.
 
+## Configuring SSH users
+Include the ssh_users recipe on your node or role.
+
+    ...
+    "recipe[rundeck::ssh_users]"
+    ...
+
+Next, define the ssh users in data bags.
+So you need to know about [opscode-cookbooks/users Usage section](https://github.com/opscode-cookbooks/users#usage).
+
+Example definition.
+
+    {
+      "id": "rundeck",
+      "password": "!!",
+      "ssh_keys": [
+        "ssh-rsa AAAA...ieF5Xw=="
+      ],
+      "groups": ["rundeck"],
+      "uid": 50001,
+      "home": "/var/lib/rundeck",
+      "shell": "\/bin\/bash",
+      "comment": "Rundeck user"
+    }
+
 ## Integrating Rundeck with Chef
 Include the chef_integrate recipe on your node or role.
 
 For now, you need to start chef-rundeck server yourself...
 
 # Attributes
-See the `attributes/default.rb` for default values.
+See the `attributes/*.rb` for default values.
+
+## default
 
 * `node["rundeck"]["version"]` - The rundeck package version to install. String
 * `node["rundeck"]["rpm_url"]` - Yum repo package url. String
 * `node["rundeck"]["user"]` - User that Rundeck will run as. String
 * `node["rundeck"]["group"]` - Group for Rundeck. String
+
+## tool_users
+
 * `node["rundeck"]["tool_users"]["use_data_bag"]` - Whether or not use data bag to manage Rundeck tool users. Boolean
 * `node["rundeck"]["tool_users"]["data_bag_name"]` - Data bag name managing Rundeck tool users data. String (default to `users`)
 * `node["rundeck"]["tool_users"]["users"]` - Rundeck tool users definition. Hash
+
+## ssh_users
+
+* `node["rundeck"]["ssh_users"]["data_bag_name"]` - Data bag name managing ssh user data. String
+* `node["rundeck"]["ssh_users"]["group"]` - OS group that the ssh user belong to. String
+* `node["rundeck"]["ssh_users"]["gid"]` - The group identifier. String (default to `nil`)
+
+## chef_integrate
+
 * `node["rundeck"]["chef_integrate"]["log_level"]` - Log level about chef-rundeck sinatra server run. String (`info` or `debug`)
 * `node["rundeck"]["chef_integrate"]["ssh_user"]` - SSH user that Rundeck server use to connect nodes. String
 * `node["rundeck"]["chef_integrate"]["port"]` - Port that chef-rundeck sinatra server listen on. Fixnum
@@ -102,6 +145,11 @@ Create Rundeck tool users.
 
 For more detail, this recipe create rundeck users definition file `realm.properties`
 from node attributes or data bag
+
+## ssh_users
+Create the rundeck OS user including (private)/public key.
+
+This recipe using `users_manage` LWRP.
 
 ## chef_integrate
 Install and configure chef-rundeck gem.

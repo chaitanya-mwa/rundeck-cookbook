@@ -1,3 +1,7 @@
+## v0.2.3:
+
+* Add ssh_user recipe
+
 ## v0.2.2:
 
 * Add chef_integrate recipe

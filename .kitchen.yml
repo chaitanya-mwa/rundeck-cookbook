@@ -19,7 +19,9 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[rundeck]", "recipe[rundeck::tool_users]"]
+  run_list: 
+    - "recipe[rundeck]"
+    - "recipe[rundeck::tool_users]"
   attributes:
     rundeck:
       tool_users:
@@ -41,3 +43,8 @@ suites:
             encrypt: CRYPT
             password: stnPHOuwRN8Is
             roles: ["admin"]
+#- name: ssh_users
+# FIXME ssh_users recipe using "search", but chef-solo doesn't support it.
+#  run_list:
+#    - "recipe[rundeck::ssh_users]"
+#  attributes:
