@@ -7,12 +7,16 @@ Currently supported:
 
 * Install Rundeck
 * Configure Rundeck tool users
+* Install and configure chef-rundeck integrator
 
 Roadmap:
 
+* Managing firewall(iptables)
 * Support Other platform
-* Install and configure chef-rundeck integrator
+* Support log rotate
 * Add a test case using data bag for tool_users recipe
+* Add a test case for chef_integrate
+* Add a resource to start chef-rundeck server.
 * Option to use MySQL
 
 # Requirements
@@ -28,11 +32,13 @@ Tested on:
 
 * apt
 * yum
-* mysql
+* java
 
 # Usage
+## Installing Rundeck
 Include the default recipe on your node or role that fits how you wish to install Rundeck on your system per the recipes section above. Modify the attributes as required in your role to change how various configuration is applied per the attributes section above. In general, override attributes in the role should be used when changing attributes.
 
+## Managing Rundeck tool users
 If you're going to manage Rundeck user by Chef, include the tool_users recipe under the default recipe.
 
     ...
@@ -68,6 +74,11 @@ Example definition in roles
 
 Example definition in data bags, see Data Bags Section.
 
+## Integrating Rundeck with Chef
+Include the chef_integrate recipe on your node or role.
+
+For now, you need to start chef-rundeck server yourself...
+
 # Attributes
 See the `attributes/default.rb` for default values.
 
@@ -78,6 +89,9 @@ See the `attributes/default.rb` for default values.
 * `node["rundeck"]["tool_users"]["use_data_bag"]` - Whether or not use data bag to manage Rundeck tool users. Boolean
 * `node["rundeck"]["tool_users"]["data_bag_name"]` - Data bag name managing Rundeck tool users data. String (default to `users`)
 * `node["rundeck"]["tool_users"]["users"]` - Rundeck tool users definition. Hash
+* `node["rundeck"]["chef_integrate"]["log_level"]` - Log level about chef-rundeck sinatra server run. String (`info` or `debug`)
+* `node["rundeck"]["chef_integrate"]["ssh_user"]` - SSH user that Rundeck server use to connect nodes. String
+* `node["rundeck"]["chef_integrate"]["port"]` - Port that chef-rundeck sinatra server listen on. Fixnum
 
 # Recipes
 ## default
@@ -89,8 +103,11 @@ Create Rundeck tool users.
 For more detail, this recipe create rundeck users definition file `realm.properties`
 from node attributes or data bag
 
+## chef_integrate
+Install and configure chef-rundeck gem.
+
 # Data Bags
-This cookbook use data bag to manage Rundeck tool users.  
+This cookbook use data bag to manage Rundeck tool users.
 (Or you can manage by node attributes.)
 
 First, please see [opscode-cookbooks/users Usage section](https://github.com/opscode-cookbooks/users#usage).
