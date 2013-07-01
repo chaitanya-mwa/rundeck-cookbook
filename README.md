@@ -200,7 +200,7 @@ This cookbook use data bag to manage Rundeck tool users.
 
 First, please see [opscode-cookbooks/users Usage section](https://github.com/opscode-cookbooks/users#usage).
 
-Add Rundeck data to each users item.
+Add Rundeck data to each users item. (Note include "users" to "groups" )
 ```
 {
   "id": "bofh",
@@ -209,7 +209,7 @@ Add Rundeck data to each users item.
     "ssh-rsa AAA123...xyz== foo",
     "ssh-rsa AAA456...uvw== bar"
   ],
-  "groups": [ "sysadmin", "dba", "devops" ],
+  "groups": ["users"],
   "uid": 2001,
   "shell": "\/bin\/bash",
   "comment": "BOFH",
