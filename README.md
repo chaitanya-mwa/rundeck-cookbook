@@ -168,6 +168,7 @@ See the `attributes/*.rb` for default values.
 * `node["rundeck"]["ssh_users"]["data_bag_name"]` - Data bag name managing ssh user data. String
 * `node["rundeck"]["ssh_users"]["group"]` - OS group that the ssh user belong to. String
 * `node["rundeck"]["ssh_users"]["gid"]` - The group identifier. String (default to `nil`)
+* `node["rundeck"]["ssh_users"]["manage_private_key"]` - Whether or not manage private key by ssh_users recipe. Boolean (default to `false`)
 
 ## chef_integrate
 

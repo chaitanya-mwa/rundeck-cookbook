@@ -21,4 +21,4 @@
 default["rundeck"]["ssh_users"]["data_bag_name"]      = "users"
 default["rundeck"]["ssh_users"]["group"]              = "rundeck"
 default["rundeck"]["ssh_users"]["gid"]                = 50001
-default["rundeck"]["ssh_users"]["manage_private_key"] = true
+default["rundeck"]["ssh_users"]["manage_private_key"] = false
