@@ -9,12 +9,12 @@ Currently supported:
 * Configure Rundeck tool users
 * Install and configure chef-rundeck integrator (work in progress)
 * Create a user on target node for SSH connection
+* Support log rotate
 
 Roadmap:
 
 * Managing firewall(iptables)
 * Support Other platform
-* Support log rotate
 * Support backup
 * Add a test case using data bag for tool_users recipe
 * Add a resource to start chef-rundeck server.
@@ -35,8 +35,10 @@ Tested on:
 
 * [apt](https://github.com/opscode-cookbooks/apt)
 * [yum](https://github.com/opscode-cookbooks/yum)
+* [git](https://github.com/opscode-cookbooks/git)
 * [java](https://github.com/opscode-cookbooks/java)
 * [users](https://github.com/opscode-cookbooks/users)
+* [logrotate](https://github.com/opscode-cookbooks/logrotate)
 
 # Usage
 ## Installing Rundeck

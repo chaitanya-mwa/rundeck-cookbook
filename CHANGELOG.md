@@ -1,3 +1,7 @@
+## v0.2.4:
+
+* Support logrotate
+
 ## v0.2.3:
 
 * Add ssh_user recipe

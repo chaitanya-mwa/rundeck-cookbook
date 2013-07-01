@@ -50,6 +50,18 @@ when "centos", "redhat"
   end
 end
 
+# Configure logrotate
+include_recipe "logrotate"
+
+logrotate_app "rundeck" do
+  cookbook "logrotate"
+  path "/var/log/rundeck/*.log"
+  frequecy "daily"
+  create "644 #{node['rundeck']['user']} #{node['rundeck']['group']}"
+  rotate 7
+  options ["compress", "delaycompress", "missingok", "notifempty"]
+end
+
 service "rundeckd" do
   supports :status => true, :restart => true
   action [:enable, :start]
