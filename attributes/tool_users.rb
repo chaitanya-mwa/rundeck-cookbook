@@ -22,14 +22,14 @@
 default["rundeck"]["tool_users"]["use_data_bag"]  = false
 default["rundeck"]["tool_users"]["data_bag_name"] = "users"
 default["rundeck"]["tool_users"]["users"] = [
-  { "id"       => "admin",
-    "encrypt"  => nil,
-    "password" => "admin",
-    "roles"    => ["admin"]
+  { "id"          => "admin",
+    "encryption"  => nil,
+    "password"    => "admin",
+    "roles"       => ["admin"]
   },
-  { "id"       => "jsmith",
-    "encrypt"  => "MD5",
-    "password" => "a029d0df84eb5549c641e04a9ef389e5",
-    "roles"    => ["admin"]
+  { "id"          => "jsmith",
+    "encryption"  => "MD5",
+    "password"    => "a029d0df84eb5549c641e04a9ef389e5",
+    "roles"       => ["admin"]
   }
 ]

@@ -63,13 +63,13 @@ Example definition in roles
           "users": [
             {
               "id": "admin",
-              "encrypt": nil,
+              "encryption": nil,
               "password": "admin",
               "roles": ["admin"]
             },
             {
               "id": "jsmith",
-              "encrypt": "MD5",
+              "encryption": "MD5",
               "password": "a029d0df84eb5549c641e04a9ef389e5",
               "roles": ["admin"]
             }
@@ -217,7 +217,7 @@ Add Rundeck data to each users item.
   ...
   "rundeck": {
     "locked_user": false,
-    "encrypt": "MD5",
+    "encryption": "MD5",
     "password": "a029d0df84eb5549c641e04a9ef389e5",
     "roles": ["admin", "users"]
   },
@@ -227,7 +227,7 @@ Add Rundeck data to each users item.
 ```
 
 * `locked_user` - Whether or not lock this user account.
-* `encrypt` - Encryption method, `MD5` or `OBF` or `CRYPT` or `false`(plain)
+* `encryption` - Encryption method, `MD5` or `OBF` or `CRYPT` or `false`(plain)
 * `password` - Encrypted or plain password
 * `roles` - Roles this user have
 

@@ -20,10 +20,10 @@
 
 # Public: Create a Rundeck user definition line
 #
-# id       - String, The Rundeck tool user id
-# encrypt  - String, password encryption method ("MD5", "CRYPT", "OBF")
-# password - String, encrypted or plain password
-# roles    - Array, the user having roles name
+# id          - String, The Rundeck tool user id
+# encryption  - String, password encryptionion method ("MD5", "CRYPT", "OBF")
+# password    - String, encryptioned or plain password
+# roles       - Array, the user having roles name
 #
 # Examples
 #
@@ -36,8 +36,8 @@
 #   # => 'steve: MD5:a2cb028d8cfcc9fec8890234td,admin,users'
 #
 # Returns a string
-def user_definition_line(id, encrypt, password, roles)
-  "#{id}: #{encrypt}#{':' if encrypt}#{password},#{roles.join(',')}"
+def user_definition_line(id, encryption, password, roles)
+  "#{id}: #{encryption}#{':' if encryption}#{password},#{roles.join(',')}"
 end
 
 user_definition_lines = Array.new
@@ -46,7 +46,7 @@ if node["rundeck"]["tool_users"]["use_data_bag"]
   search(node["rundeck"]["tool_users"]["data_bag_name"], "rundeck_locked_user:false") do |u|
     user_definition_lines << user_definition_line(
       u["id"],
-      u["rundeck"]["encrypt"],
+      u["rundeck"]["encryption"],
       u["rundeck"]["password"],
       u["rundeck"]["roles"]
     )
@@ -55,7 +55,7 @@ else
   node["rundeck"]["tool_users"]["users"].each do |u|
     user_definition_lines << user_definition_line(
       u["id"],
-      u["encrypt"],
+      u["encryption"],
       u["password"],
       u["roles"]
     )

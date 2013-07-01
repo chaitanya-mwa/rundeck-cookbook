@@ -28,19 +28,19 @@ suites:
         use_data_bag: false
         users:
           - id: admin
-            encrypt: null
+            encryption: null
             password: admin
             roles: ["admin", "users"]
           - id: jsmith
-            encrypt: MD5
+            encryption: MD5
             password: a029d0df84eb5549c641e04a9ef389e5
             roles: ["admin"]
           - id: steve
-            encrypt: OBF
+            encryption: OBF
             password: 1xfd1zt11uha1ugg1zsp1xfp
             roles: ["admin"]
           - id: bill
-            encrypt: CRYPT
+            encryption: CRYPT
             password: stnPHOuwRN8Is
             roles: ["admin"]
 #- name: ssh_users
