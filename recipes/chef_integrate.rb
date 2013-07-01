@@ -20,6 +20,8 @@
 
 # TODO Install Ruby
 
+include_recipe "git"
+
 # Create .chef directory and knife.rb for chef-rundeck
 directory "/var/lib/rundeck/chef" do
   owner node["rundeck"]["user"]
