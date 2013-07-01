@@ -87,11 +87,19 @@ Include the ssh_users recipe on your node or role.
     "recipe[rundeck::ssh_users]"
     ...
 
+If you're going to use this for Rundeck Server, include ssh_user recipe over the default recipe.
+    
+    ...
+    "recipe[rundeck::ssh_users]",
+    "recipe[rundeck]"
+    ...
+
 Next, define the ssh users in data bags.
 So you need to know about [opscode-cookbooks/users Usage section](https://github.com/opscode-cookbooks/users#usage).
 
 Example definition.
 
+    # rundeck.json
     {
       "id": "rundeck",
       "password": "!!",
@@ -104,6 +112,35 @@ Example definition.
       "shell": "\/bin\/bash",
       "comment": "Rundeck user"
     }
+
+If you'd like to manage private_key(Ex. Rundeck Server needs to have SSH private key), 
+set `node["rundeck"]["ssh_user"]["manage_private_key"] = true` and add private key value to the data bag item.
+
+    # role or node
+    "override": {
+      "rundeck": {
+        "ssh_user": {
+          "manage_private_key": true
+        }
+      }
+    }
+
+    # rundeck.json
+    {
+      "id": "rundeck",
+      "password": "!!",
+      "ssh_keys": [
+        "ssh-rsa AAAA...ieF5Xw=="
+      ],
+      "id_rsa": "-------Add private key value here--------"
+      "groups": ["rundeck"],
+      "uid": 50001,
+      "home": "/var/lib/rundeck",
+      "shell": "\/bin\/bash",
+      "comment": "Rundeck user"
+    }
+
+Then this recipe create `/var/lib/rundeck/.ssh/rundeck.id_rsa`.
 
 ## Integrating Rundeck with Chef
 Include the chef_integrate recipe on your node or role.

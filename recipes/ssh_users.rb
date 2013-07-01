@@ -23,3 +23,15 @@ users_manage node["rundeck"]["ssh_users"]["group"] do
   group_id node["rundeck"]["ssh_users"]["gid"]
   action :create
 end
+
+# The reason separating private key managing
+# from users_manage resource is that
+# I'd like to handle placing the key to specific node.
+if node["rundeck"]["ssh_users"]["manage_private_key"]
+  file "/var/lib/rundeck/.ssh/rundeck.id_rsa" do
+    owner node["rundeck"]["user"]
+    group node["rundeck"]["group"]
+    mode "0400"
+    content data_bag_item("users", "rundeck")["id_rsa"]
+  end
+end
