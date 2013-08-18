@@ -216,7 +216,7 @@ Add Rundeck data to each users item. (Note include "users" to "groups" )
   ...
   ...
   "rundeck": {
-    "locked_user": false,
+    "rundeck_locked_user": false,
     "encryption": "MD5",
     "password": "a029d0df84eb5549c641e04a9ef389e5",
     "roles": ["admin", "users"]
@@ -226,7 +226,7 @@ Add Rundeck data to each users item. (Note include "users" to "groups" )
 }
 ```
 
-* `locked_user` - Whether or not lock this user account.
+* `rundeck_locked_user` - Whether or not lock this user account.
 * `encryption` - Encryption method, `MD5` or `OBF` or `CRYPT` or `false`(plain)
 * `password` - Encrypted or plain password
 * `roles` - Roles this user have
