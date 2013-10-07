@@ -77,7 +77,7 @@ execute "start chef-rundeck" do
     /opt/chef/embedded/bin/chef-rundeck \
     -c /var/lib/rundeck/chef/config.rb \
     -u #{node["rundeck"]["chef_integrate"]["ssh_user"]} \
-    -w #{Chef::Config["chef_server_url"]} \
+    -a #{Chef::Config["chef_server_url"]} \
     -p #{node["rundeck"]["chef_integrate"]["port"]} \
     -P /var/run/chef-rundeck
   CMD
@@ -94,7 +94,7 @@ message << "sudo -b"
 message << " /opt/chef/embedded/bin/chef-rundeck"
 message << " -c /var/lib/rundeck/chef/config.rb"
 message << " -u #{node['rundeck']['chef_integrate']['ssh_user']}"
-message << " -w #{Chef::Config['chef_server_url']}"
+message << " -a #{Chef::Config['chef_server_url']}"
 message << " -p #{node['rundeck']['chef_integrate']['port']}"
 log "Run this command to start chef-rundeck server"
 log message

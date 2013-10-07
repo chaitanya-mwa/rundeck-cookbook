@@ -1,3 +1,7 @@
+## v0.2.8:
+
+* Change the run command for chef-rundeck
+
 ## v0.2.4:
 
 * Support logrotate
