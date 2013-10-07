@@ -65,7 +65,7 @@ execute "build chef-rundeck gem package" do
 end
 
 git "/var/lib/rundeck/chef/chef-rundeck_git-repo" do
-  repo "git://github.com/oswaldlabs/chef-rundeck.git"
+  repo "https://github.com/oswaldlabs/chef-rundeck.git"
   user node["rundeck"]["user"]
   action :sync
   notifies :run, "execute[build chef-rundeck gem package]", :immediately
